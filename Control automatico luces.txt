@@ -1,0 +1,58 @@
+#include <IRremote.h>
+#define Tecla_1 0xEF10BF00
+#define Tecla_2 0xEE11BF00
+#define Tecla_4 0xEB14BF00
+#define Tecla_5 0xEA15BF00
+#define Tecla_7 0xE718BF00
+#define Tecla_8 0xE619BF00
+int IR = 11;
+int LED = 6;
+int LED2 = 7;
+int LED3 = 8;
+int LED4 = 9;
+int estadoLED = LOW;
+int estadoLED2 = LOW;
+int estadoLED3 = LOW;
+int estadoLED4 = LOW;
+//IRrecv IrReceiver(IR, DISABLE_LED_FEEDBACK);
+void setup() {
+Serial.begin(9600);
+IrReceiver.begin(IR, DISABLE_LED_FEEDBACK);
+pinMode(LED, OUTPUT);
+pinMode(LED2, OUTPUT);
+pinMode(LED3, OUTPUT);
+pinMode(LED4, OUTPUT);
+}
+void loop() {
+if (IrReceiver.decode()) {
+Serial.println(IrReceiver.decodedIRData.decodedRa
+wData, HEX);
+if (IrReceiver.decodedIRData.decodedRawData ==
+Tecla_1) {
+estadoLED = !estadoLED; // Invierte el estado
+del LED
+digitalWrite(LED, estadoLED);
+} else if
+(IrReceiver.decodedIRData.decodedRawData ==
+Tecla_2) {
+estadoLED2 = !estadoLED2; // Invierte el estado
+del LED2
+digitalWrite(LED2, estadoLED2);
+} else if
+(IrReceiver.decodedIRData.decodedRawData ==
+Tecla_4) {
+estadoLED3 = !estadoLED3; // Invierte el estado
+del LED3
+digitalWrite(LED3, estadoLED3);
+} else if
+(IrReceiver.decodedIRData.decodedRawData ==
+Tecla_5){
+estadoLED4 = !estadoLED4; // Invierte el estado
+del LED3
+digitalWrite(LED4, estadoLED4);
+}
+IrReceiver.resume();
+}
+delay(10); // Tiempo de espera antes de detectar otra
+señal
+}
